@@ -5,8 +5,8 @@ locals {
 resource "azurerm_network_interface" "NI" {
   for_each = local.instances
   name                = "${var.linux_machine}-nic-${each.key}"
-  location            = var.rg_location-9484
-  resource_group_name = var.rg_name-9484
+  location            = var.rg_location-3241
+  resource_group_name = var.rg_name-3241
   
   ip_configuration {
     name                          = "${var.linux_machine}-ipconfig-${each.key}"
@@ -19,8 +19,8 @@ resource "azurerm_network_interface" "NI" {
 resource "azurerm_public_ip" "pub_ip" {
   for_each = local.instances
   name                = "${var.linux_machine}-pip-${each.key}"
-  resource_group_name = var.rg_name-9484
-  location            = var.rg_location-9484
+  resource_group_name = var.rg_name-3241
+  location            = var.rg_location-3241
   allocation_method   = "Dynamic"
   domain_name_label   = "${var.linux_machine}-${each.key}"
 
@@ -30,11 +30,11 @@ resource "azurerm_linux_virtual_machine" "vmlinux" {
   for_each = local.instances
   name                = "${var.linux_machine}-VM-${each.key}"
   computer_name = "${var.linux_machine}-VM-${each.key}"
-  resource_group_name = var.rg_name-9484
-  location            = var.rg_location-9484
+  resource_group_name = var.rg_name-3241
+  location            = var.rg_location-3241
   size                = var.size
   admin_username      = var.Admin_user
-  availability_set_id   = azurerm_availability_set.as-9484.id
+  availability_set_id   = azurerm_availability_set.as-3241.id
   network_interface_ids = [
     azurerm_network_interface.NI[each.key].id
   ]
@@ -62,10 +62,10 @@ resource "azurerm_linux_virtual_machine" "vmlinux" {
   }
 
 }
-resource "azurerm_availability_set" "as-9484" {
+resource "azurerm_availability_set" "as-3241" {
   name                         = var.linux_avs
-  resource_group_name          = var.rg_name-9484
-  location                     = var.rg_location-9484
+  resource_group_name          = var.rg_name-3241
+  location                     = var.rg_location-3241
   platform_fault_domain_count  = 2
   platform_update_domain_count = 5
 }
