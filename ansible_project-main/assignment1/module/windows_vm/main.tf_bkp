@@ -1,23 +1,23 @@
 resource "azurerm_availability_set" "windows_availability_set" {
   name                = var.windows_avs
-  resource_group_name = var.rg_name-9484
-  location            = var.rg_location-9484
+  resource_group_name = var.rg_name-3241
+  location            = var.rg_location-3241
 }
 
 resource "azurerm_public_ip" "windows_public_ip" {
   count               = var.wvm_count
   name                = "${var.windows_machine}-publicip-${format("%1d", count.index + 1)}"
-  location            = var.rg_location-9484
-  resource_group_name = var.rg_name-9484
+  location            = var.rg_location-3241
+  resource_group_name = var.rg_name-3241
   allocation_method   = "Dynamic"
-  domain_name_label   = "bharath-windows-dns-${format(count.index + 1)}"
+  domain_name_label   = "ramya-windows-dns-${format(count.index + 1)}"
 }
 
 resource "azurerm_network_interface" "windows_nic" {
   count               = var.wvm_count
   name                = "${var.windows_machine}-nic-${format("%1d", count.index + 1)}"
-  location            = var.rg_location-9484
-  resource_group_name = var.rg_name-9484
+  location            = var.rg_location-3241
+  resource_group_name = var.rg_name-3241
 
   ip_configuration {
     name                          = "${var.windows_machine}-ipconfig-${format("%1d", count.index + 1)}"
@@ -30,8 +30,8 @@ resource "azurerm_network_interface" "windows_nic" {
 resource "azurerm_windows_virtual_machine" "windows_vm" {
   count                     = var.wvm_count
   name                      = "${var.windows_machine}-windowsvm-${format("%1d", count.index + 1)}"
-  location                  = var.rg_location-9484
-  resource_group_name       = var.rg_name-9484
+  location                  = var.rg_location-3241
+  resource_group_name       = var.rg_name-3241
   availability_set_id       = azurerm_availability_set.windows_availability_set.id
   network_interface_ids     = [ element(azurerm_network_interface.windows_nic[*].id, count.index + 1) ]
   size                      = var.vm_size
