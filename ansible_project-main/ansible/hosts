@@ -1,0 +1,11 @@
+[linux]
+linux-3241vm01-dns-1.canadacentral.cloudapp.azure.com
+linux-3241vm01-dns-2.canadacentral.cloudapp.azure.com
+linux-3241vm01-dns-3.canadacentral.cloudapp.azure.com
+
+[os:children]
+linux
+
+[linux:vars]
+ansible_user=ramya-n01653241
+ansible_connection=ssh
